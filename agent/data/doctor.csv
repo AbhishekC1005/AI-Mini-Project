@@ -1,0 +1,21 @@
+doctor_id,doctor_name,specialization,department_id,available_days,available_time_start,available_time_end,contact_number,years_experience
+DOC001,Dr. Sarah Johnson,General Physician,D001,Monday-Friday,09:00,17:00,+1-555-0101,15
+DOC002,Dr. Michael Chen,Emergency Medicine,D002,Monday-Sunday,00:00,23:59,+1-555-0102,12
+DOC003,Dr. Emily Rodriguez,Cardiologist,D004,Monday-Saturday,10:00,18:00,+1-555-0103,20
+DOC004,Dr. James Wilson,Neurologist,D005,Tuesday-Saturday,09:00,16:00,+1-555-0104,18
+DOC005,Dr. Lisa Anderson,Orthopedic Surgeon,D006,Monday-Friday,08:00,15:00,+1-555-0105,22
+DOC006,Dr. Robert Taylor,Pediatrician,D007,Monday-Friday,09:00,17:00,+1-555-0106,10
+DOC007,Dr. Maria Garcia,Radiologist,D008,Monday-Saturday,08:00,20:00,+1-555-0107,14
+DOC008,Dr. David Brown,Surgeon,D011,Monday-Friday,07:00,19:00,+1-555-0108,25
+DOC009,Dr. Jennifer Lee,Obstetrician,D012,Monday-Sunday,08:00,20:00,+1-555-0109,16
+DOC010,Dr. William Martinez,Oncologist,D013,Monday-Friday,10:00,18:00,+1-555-0110,19
+DOC011,Dr. Amanda White,Psychiatrist,D014,Tuesday-Saturday,11:00,19:00,+1-555-0111,13
+DOC012,Dr. Christopher Davis,Dermatologist,D015,Monday-Friday,09:00,16:00,+1-555-0112,11
+DOC013,Dr. Jessica Thompson,Intensivist,D003,Monday-Sunday,00:00,23:59,+1-555-0113,17
+DOC014,Dr. Daniel Moore,Cardiologist,D004,Monday-Friday,11:00,19:00,+1-555-0114,21
+DOC015,Dr. Rachel Kim,Pediatrician,D007,Tuesday-Saturday,10:00,18:00,+1-555-0115,9
+DOC016,Dr. Kevin Patel,Orthopedic Surgeon,D006,Tuesday-Friday,09:00,17:00,+1-555-0116,15
+DOC017,Dr. Michelle Adams,General Physician,D001,Monday-Friday,10:00,18:00,+1-555-0117,12
+DOC018,Dr. Thomas Clark,Neurologist,D005,Monday-Thursday,08:00,16:00,+1-555-0118,20
+DOC019,Dr. Laura Wright,Surgeon,D011,Tuesday-Saturday,08:00,18:00,+1-555-0119,18
+DOC020,Dr. Andrew Scott,Emergency Medicine,D002,Monday-Sunday,00:00,23:59,+1-555-0120,14

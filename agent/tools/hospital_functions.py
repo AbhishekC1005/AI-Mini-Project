@@ -238,3 +238,335 @@ def get_all_hospital_distances() -> str:
         return result
     except Exception as e:
         return f"Error: {str(e)}"
+
+
+
+# ============================================================================
+# Department Functions
+# ============================================================================
+
+def get_all_departments() -> str:
+    """
+    Get list of all hospital departments.
+    
+    Returns:
+        str: List of all departments with locations
+    """
+    try:
+        from agent.tools.hospital_data import department_tool
+        departments = department_tool.get_all_departments()
+        
+        if not departments:
+            return "No department data available."
+        
+        result = "🏥 Hospital Departments:\n\n"
+        for dept in departments:
+            result += f"• {dept['department_name']}\n"
+            result += f"  Location: {dept['floor']}, {dept['building']}\n"
+            result += f"  Extension: {dept['contact_extension']}\n\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def find_department(department_name: str) -> str:
+    """
+    Find a specific department by name.
+    
+    Args:
+        department_name: Name of the department
+        
+    Returns:
+        str: Department details and location
+    """
+    try:
+        from agent.tools.hospital_data import department_tool
+        dept = department_tool.get_department_by_name(department_name)
+        
+        if "error" in dept:
+            return dept["error"]
+        
+        result = f"📍 {dept['department_name']}\n\n"
+        result += f"Location: {dept['floor']}, {dept['building']}\n"
+        result += f"Contact Extension: {dept['contact_extension']}\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def get_departments_on_floor(floor: str) -> str:
+    """
+    Get all departments on a specific floor.
+    
+    Args:
+        floor: Floor name (e.g., "First Floor", "Ground Floor")
+        
+    Returns:
+        str: List of departments on that floor
+    """
+    try:
+        from agent.tools.hospital_data import department_tool
+        departments = department_tool.get_departments_by_floor(floor)
+        
+        if not departments:
+            return f"No departments found on {floor}."
+        
+        result = f"Departments on {floor}:\n\n"
+        for dept in departments:
+            result += f"• {dept['department_name']} - {dept['building']}\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+# ============================================================================
+# Doctor Functions
+# ============================================================================
+
+def get_all_doctors() -> str:
+    """
+    Get list of all doctors.
+    
+    Returns:
+        str: List of all doctors with specializations
+    """
+    try:
+        from agent.tools.hospital_data import doctor_tool
+        doctors = doctor_tool.get_all_doctors()
+        
+        if not doctors:
+            return "No doctor data available."
+        
+        result = "👨‍⚕️ Hospital Doctors:\n\n"
+        for doc in doctors:
+            result += f"• {doc['doctor_name']} - {doc['specialization']}\n"
+            result += f"  Available: {doc['available_days']}, {doc['available_time_start']}-{doc['available_time_end']}\n\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def find_doctor(doctor_name: str) -> str:
+    """
+    Find a specific doctor by name.
+    
+    Args:
+        doctor_name: Name of the doctor
+        
+    Returns:
+        str: Doctor details and availability
+    """
+    try:
+        from agent.tools.hospital_data import doctor_tool
+        doctor = doctor_tool.get_doctor_by_name(doctor_name)
+        
+        if "error" in doctor:
+            return doctor["error"]
+        
+        result = f"👨‍⚕️ {doctor['doctor_name']}\n\n"
+        result += f"Specialization: {doctor['specialization']}\n"
+        result += f"Experience: {doctor['years_experience']} years\n"
+        result += f"Available: {doctor['available_days']}\n"
+        result += f"Time: {doctor['available_time_start']} - {doctor['available_time_end']}\n"
+        result += f"Contact: {doctor['contact_number']}\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def find_doctors_by_specialization(specialization: str) -> str:
+    """
+    Find doctors by specialization.
+    
+    Args:
+        specialization: Medical specialization (e.g., "Cardiologist", "Pediatrician")
+        
+    Returns:
+        str: List of doctors with that specialization
+    """
+    try:
+        from agent.tools.hospital_data import doctor_tool
+        doctors = doctor_tool.get_doctors_by_specialization(specialization)
+        
+        if not doctors:
+            return f"No doctors found with specialization: {specialization}"
+        
+        result = f"Doctors specializing in {specialization}:\n\n"
+        for doc in doctors:
+            result += f"• {doc['doctor_name']}\n"
+            result += f"  Available: {doc['available_days']}, {doc['available_time_start']}-{doc['available_time_end']}\n\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def get_available_doctors_today(day: str) -> str:
+    """
+    Get doctors available on a specific day.
+    
+    Args:
+        day: Day of the week (e.g., "Monday", "Tuesday")
+        
+    Returns:
+        str: List of available doctors
+    """
+    try:
+        from agent.tools.hospital_data import doctor_tool
+        doctors = doctor_tool.get_available_doctors(day)
+        
+        if not doctors:
+            return f"No doctors available on {day}."
+        
+        result = f"Doctors available on {day}:\n\n"
+        for doc in doctors:
+            result += f"• {doc['doctor_name']} - {doc['specialization']}\n"
+            result += f"  Time: {doc['available_time_start']}-{doc['available_time_end']}\n\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+# ============================================================================
+# Patient Functions
+# ============================================================================
+
+def get_all_patients() -> str:
+    """
+    Get list of all current patients.
+    
+    Returns:
+        str: List of all patients
+    """
+    try:
+        from agent.tools.hospital_data import patient_tool
+        patients = patient_tool.get_all_patients()
+        
+        if not patients:
+            return "No patient data available."
+        
+        result = "🏥 Current Patients:\n\n"
+        for patient in patients:
+            result += f"• {patient['patient_name']} - Room {patient['room_number']}\n"
+            result += f"  Condition: {patient['disease']}\n\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def find_patient(patient_name: str) -> str:
+    """
+    Find a specific patient by name.
+    
+    Args:
+        patient_name: Name of the patient
+        
+    Returns:
+        str: Patient details and room location
+    """
+    try:
+        from agent.tools.hospital_data import patient_tool
+        patient = patient_tool.get_patient_by_name(patient_name)
+        
+        if "error" in patient:
+            return patient["error"]
+        
+        result = f"👤 {patient['patient_name']}\n\n"
+        result += f"Age: {patient['age']}, Gender: {patient['gender']}\n"
+        result += f"Room: {patient['room_number']}\n"
+        result += f"Location: {patient['floor']}, {patient['building']}\n"
+        result += f"Condition: {patient['disease']}\n"
+        result += f"Admitted: {patient['admitted_date']}\n"
+        result += f"Relative: {patient['relative_name']} ({patient['relative_contact']})\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def find_patient_by_room(room_number: str) -> str:
+    """
+    Find patient by room number.
+    
+    Args:
+        room_number: Room number (e.g., "301", "ICU-05")
+        
+    Returns:
+        str: Patient details
+    """
+    try:
+        from agent.tools.hospital_data import patient_tool
+        patient = patient_tool.get_patient_by_room(room_number)
+        
+        if "error" in patient:
+            return patient["error"]
+        
+        result = f"Room {room_number}:\n\n"
+        result += f"Patient: {patient['patient_name']}\n"
+        result += f"Age: {patient['age']}, Gender: {patient['gender']}\n"
+        result += f"Condition: {patient['disease']}\n"
+        result += f"Relative: {patient['relative_name']} ({patient['relative_contact']})\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def get_directions_to_patient(patient_name: str) -> str:
+    """
+    Get directions to a patient's room.
+    
+    Args:
+        patient_name: Name of the patient
+        
+    Returns:
+        str: Detailed directions to the patient's room
+    """
+    try:
+        from agent.tools.hospital_data import patient_tool
+        directions = patient_tool.get_direction_to_patient(patient_name)
+        
+        if "error" in directions:
+            return directions["error"]
+        
+        result = f"🗺️ Directions to {directions['patient_name']}\n\n"
+        result += f"Room: {directions['room_number']}\n"
+        result += f"Location: {directions['floor']}, {directions['building']}\n\n"
+        result += f"Directions:\n{directions['directions']}\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+def find_patients_by_disease(disease: str) -> str:
+    """
+    Find patients with a specific disease.
+    
+    Args:
+        disease: Disease name
+        
+    Returns:
+        str: List of patients with that disease
+    """
+    try:
+        from agent.tools.hospital_data import patient_tool
+        patients = patient_tool.get_patients_by_disease(disease)
+        
+        if not patients:
+            return f"No patients found with disease: {disease}"
+        
+        result = f"Patients with {disease}:\n\n"
+        for patient in patients:
+            result += f"• {patient['patient_name']} - Room {patient['room_number']}\n"
+        
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"

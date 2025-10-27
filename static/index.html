@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Reception Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 Hospital Reception Assistant</h1>
+            <p>Ask me about departments, doctors, or patient locations</p>
+        </header>
+
+        <div class="chat-container">
+            <div id="chatMessages" class="chat-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p>Welcome! I can help you with:</p>
+                        <ul>
+                            <li>Finding departments: "Where is Radiology?"</li>
+                            <li>Finding doctors: "I need a cardiologist"</li>
+                            <li>Locating patients: "Where is John Smith?"</li>
+                            <li>Getting directions</li>
+                        </ul>
+                        <p>How can I assist you today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Type your question here..." autocomplete="off">
+                <button id="sendBtn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h3>Quick Questions:</h3>
+            <button class="quick-btn" onclick="askQuestion('Where is Radiology?')"><span>📍 Where is
+                    Radiology?</span></button>
+            <button class="quick-btn" onclick="askQuestion('I need a cardiologist')"><span>👨‍⚕️ Find a
+                    Cardiologist</span></button>
+            <button class="quick-btn" onclick="askQuestion('Show all departments')"><span>🏢 All
+                    Departments</span></button>
+            <button class="quick-btn" onclick="askQuestion('List all doctors')"><span>👥 All Doctors</span></button>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

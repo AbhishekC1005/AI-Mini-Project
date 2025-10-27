@@ -12,18 +12,22 @@ class HospitalDataTool:
         """Initialize with CSV file path."""
         self.csv_path = csv_path
         self.df = None
-        self._load_data()
-        self._add_location_column()
+        if os.path.exists(csv_path):
+            self._load_data()
+            self._add_location_column()
     
     def _load_data(self):
         """Load CSV data into pandas DataFrame."""
         if os.path.exists(self.csv_path):
             self.df = pd.read_csv(self.csv_path)
         else:
-            raise FileNotFoundError(f"CSV file not found: {self.csv_path}")
+            self.df = None
     
     def _add_location_column(self):
         """Add location column to CSV if it doesn't exist."""
+        if self.df is None:
+            return
+        
         if 'location' not in self.df.columns:
             # Define locations for each hospital
             location_mapping = {
@@ -43,10 +47,14 @@ class HospitalDataTool:
     
     def get_hospital_count(self) -> int:
         """Get total number of unique hospitals."""
+        if self.df is None:
+            return 0
         return self.df['hospital_id'].nunique()
     
     def get_hospital_names(self) -> list:
         """Get list of all hospital names with IDs and locations."""
+        if self.df is None:
+            return []
         hospitals = self.df[['hospital_id', 'hospital_name', 'location']].drop_duplicates()
         return hospitals.to_dict('records')
     
@@ -235,3 +243,177 @@ class HospitalDataTool:
 
 # Initialize global instance
 hospital_tool = HospitalDataTool()
+
+
+# ============================================================================
+# Department, Doctor, and Patient Data Tools
+# ============================================================================
+
+class DepartmentDataTool:
+    """Tool for querying department data."""
+    
+    def __init__(self, csv_path="agent/data/department.csv"):
+        self.csv_path = csv_path
+        self.df = pd.read_csv(csv_path) if os.path.exists(csv_path) else None
+    
+    def get_all_departments(self) -> list:
+        """Get list of all departments."""
+        if self.df is None:
+            return []
+        return self.df.to_dict('records')
+    
+    def get_department_by_name(self, department_name: str) -> dict:
+        """Get department details by name."""
+        if self.df is None:
+            return {"error": "Department data not found"}
+        
+        dept = self.df[self.df['department_name'].str.contains(department_name, case=False, na=False)]
+        if dept.empty:
+            return {"error": f"Department '{department_name}' not found"}
+        return dept.iloc[0].to_dict()
+    
+    def get_departments_by_floor(self, floor: str) -> list:
+        """Get all departments on a specific floor."""
+        if self.df is None:
+            return []
+        
+        depts = self.df[self.df['floor'].str.contains(floor, case=False, na=False)]
+        return depts.to_dict('records')
+    
+    def get_departments_by_building(self, building: str) -> list:
+        """Get all departments in a specific building."""
+        if self.df is None:
+            return []
+        
+        depts = self.df[self.df['building'].str.contains(building, case=False, na=False)]
+        return depts.to_dict('records')
+
+
+class DoctorDataTool:
+    """Tool for querying doctor data."""
+    
+    def __init__(self, csv_path="agent/data/doctor.csv"):
+        self.csv_path = csv_path
+        self.df = pd.read_csv(csv_path) if os.path.exists(csv_path) else None
+    
+    def get_all_doctors(self) -> list:
+        """Get list of all doctors."""
+        if self.df is None:
+            return []
+        return self.df.to_dict('records')
+    
+    def get_doctor_by_name(self, doctor_name: str) -> dict:
+        """Get doctor details by name."""
+        if self.df is None:
+            return {"error": "Doctor data not found"}
+        
+        doctor = self.df[self.df['doctor_name'].str.contains(doctor_name, case=False, na=False)]
+        if doctor.empty:
+            return {"error": f"Doctor '{doctor_name}' not found"}
+        return doctor.iloc[0].to_dict()
+    
+    def get_doctors_by_specialization(self, specialization: str) -> list:
+        """Get all doctors with a specific specialization."""
+        if self.df is None:
+            return []
+        
+        doctors = self.df[self.df['specialization'].str.contains(specialization, case=False, na=False)]
+        return doctors.to_dict('records')
+    
+    def get_doctors_by_department(self, department_id: str) -> list:
+        """Get all doctors in a specific department."""
+        if self.df is None:
+            return []
+        
+        doctors = self.df[self.df['department_id'] == department_id]
+        return doctors.to_dict('records')
+    
+    def get_available_doctors(self, day: str) -> list:
+        """Get doctors available on a specific day."""
+        if self.df is None:
+            return []
+        
+        doctors = self.df[self.df['available_days'].str.contains(day, case=False, na=False)]
+        return doctors.to_dict('records')
+
+
+class PatientDataTool:
+    """Tool for querying patient data."""
+    
+    def __init__(self, csv_path="agent/data/patient.csv"):
+        self.csv_path = csv_path
+        self.df = pd.read_csv(csv_path) if os.path.exists(csv_path) else None
+    
+    def get_all_patients(self) -> list:
+        """Get list of all patients."""
+        if self.df is None:
+            return []
+        return self.df.to_dict('records')
+    
+    def get_patient_by_name(self, patient_name: str) -> dict:
+        """Get patient details by name."""
+        if self.df is None:
+            return {"error": "Patient data not found"}
+        
+        patient = self.df[self.df['patient_name'].str.contains(patient_name, case=False, na=False)]
+        if patient.empty:
+            return {"error": f"Patient '{patient_name}' not found"}
+        return patient.iloc[0].to_dict()
+    
+    def get_patient_by_room(self, room_number: str) -> dict:
+        """Get patient details by room number."""
+        if self.df is None:
+            return {"error": "Patient data not found"}
+        
+        patient = self.df[self.df['room_number'] == room_number]
+        if patient.empty:
+            return {"error": f"No patient found in room '{room_number}'"}
+        return patient.iloc[0].to_dict()
+    
+    def get_patients_by_disease(self, disease: str) -> list:
+        """Get all patients with a specific disease."""
+        if self.df is None:
+            return []
+        
+        patients = self.df[self.df['disease'].str.contains(disease, case=False, na=False)]
+        return patients.to_dict('records')
+    
+    def get_patients_by_doctor(self, doctor_id: str) -> list:
+        """Get all patients under a specific doctor."""
+        if self.df is None:
+            return []
+        
+        patients = self.df[self.df['attending_doctor_id'] == doctor_id]
+        return patients.to_dict('records')
+    
+    def get_patients_by_floor(self, floor: str) -> list:
+        """Get all patients on a specific floor."""
+        if self.df is None:
+            return []
+        
+        patients = self.df[self.df['floor'].str.contains(floor, case=False, na=False)]
+        return patients.to_dict('records')
+    
+    def get_direction_to_patient(self, patient_name: str) -> dict:
+        """Get directions to a patient's room."""
+        if self.df is None:
+            return {"error": "Patient data not found"}
+        
+        patient = self.df[self.df['patient_name'].str.contains(patient_name, case=False, na=False)]
+        if patient.empty:
+            return {"error": f"Patient '{patient_name}' not found"}
+        
+        p = patient.iloc[0]
+        return {
+            "patient_name": p['patient_name'],
+            "room_number": p['room_number'],
+            "floor": p['floor'],
+            "building": p['building'],
+            "directions": p['direction_to_room']
+        }
+
+
+# Initialize global instances
+department_tool = DepartmentDataTool()
+doctor_tool = DoctorDataTool()
+patient_tool = PatientDataTool()

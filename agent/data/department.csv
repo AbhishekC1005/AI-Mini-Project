@@ -1,0 +1,16 @@
+department_id,department_name,location,floor,building,contact_extension
+D001,Outpatient Department (OPD),Main Building,First Floor,Main Building,101
+D002,Emergency Department,Main Building,Ground Floor,Main Building,911
+D003,Intensive Care Unit (ICU),Main Building,Third Floor,Main Building,301
+D004,Cardiology,Main Building,Second Floor,Main Building,201
+D005,Neurology,East Wing,Second Floor,East Wing,202
+D006,Orthopedics,West Wing,First Floor,West Wing,103
+D007,Pediatrics,Main Building,Fourth Floor,Main Building,401
+D008,Radiology,Main Building,Basement,Main Building,001
+D009,Laboratory,Main Building,Basement,Main Building,002
+D010,Pharmacy,Main Building,Ground Floor,Main Building,102
+D011,Surgery,Main Building,Third Floor,Main Building,302
+D012,Maternity Ward,East Wing,Third Floor,East Wing,303
+D013,Oncology,West Wing,Second Floor,West Wing,203
+D014,Psychiatry,East Wing,Fourth Floor,East Wing,402
+D015,Dermatology,West Wing,First Floor,West Wing,104
