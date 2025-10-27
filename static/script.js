@@ -107,12 +107,27 @@ function removeMessage(messageId) {
 
 // Format message text
 function formatMessage(text) {
+    // Remove markdown bold (**text** or __text__)
+    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    formatted = formatted.replace(/__(.*?)__/g, '<strong>$1</strong>');
+    
+    // Remove markdown headers (### text)
+    formatted = formatted.replace(/^###\s+(.+)$/gm, '<strong>$1</strong>');
+    formatted = formatted.replace(/^##\s+(.+)$/gm, '<strong>$1</strong>');
+    formatted = formatted.replace(/^#\s+(.+)$/gm, '<strong>$1</strong>');
+    
+    // Convert markdown lists (- item or * item)
+    formatted = formatted.replace(/^[\-\*]\s+(.+)$/gm, '• $1');
+    
+    // Convert numbered lists (1. item)
+    formatted = formatted.replace(/^\d+\.\s+(.+)$/gm, '• $1');
+    
     // Convert line breaks to <br>
-    let formatted = text.replace(/\n/g, '<br>');
-
+    formatted = formatted.replace(/\n/g, '<br>');
+    
     // Convert bullet points
     formatted = formatted.replace(/•/g, '&bull;');
-
+    
     return formatted;
 }
 
